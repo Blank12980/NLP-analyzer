@@ -66,12 +66,12 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(X_train, y_train, epochs=5, batch_size=4, validation_data=(X_test, y_test),shuffle=True)
 
 # save part
-model.save('model.h5')
-with open('tokenizer.pkl', 'wb') as f:
+model.save('./src/model.h5')
+with open('./src/tokenizer.pkl', 'wb') as f:
     pickle.dump(tokenizer, f)
 
-with open('label_encoder.pkl', 'wb') as f:
+with open('./src/encoder.pkl', 'wb') as f:
     pickle.dump(label_encoder, f)
 
-print("Модель сохранена в файл 'model.h5'.")
+print("save to ./src/model.h5.")
 
