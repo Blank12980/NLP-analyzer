@@ -1,3 +1,23 @@
+import argparse
+try:
+    parser = argparse.ArgumentParser(description="token key")
+    parser.add_argument("--token", type=str, help="token of telegrm bot")
+    args = parser.parse_args()   
+    token = args.token
+    
+    print('token is', token)
+    if token == None:
+    
+        try: 
+            print('another way')
+            from cfg import token
+        except: 
+            print('please, add the token of telegram bot')
+            exit()
+except: 
+        print('please, add the token of telegram bot')
+        exit()
+print('token is', token, '\n\n\n')
 import numpy as np
 import pickle
 import tensorflow as tf
@@ -5,10 +25,12 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import telebot
 import nltk
 import re
+
 from nltk.stem import WordNetLemmatizer
-try:
-    import cfg
-except: ''
+
+
+
+
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -51,7 +73,8 @@ class NLPmodel():
 class telegram():
 
     # create the bot
-    token = cfg.token
+
+
     bot = telebot.TeleBot(token)
     
     @bot.message_handler(func=lambda message: True)
@@ -74,9 +97,6 @@ class telegram():
 
         # send the message
         telegram.bot.reply_to(message, f"emotions = {emotion} \n{cef} ")
-        
-
-
     
 if __name__ == '__main__':
     telegram.bot.polling(none_stop=True)
