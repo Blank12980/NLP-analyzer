@@ -1,5 +1,6 @@
 import pandas as pd
 import pickle
+import argparse
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
@@ -39,10 +40,15 @@ class trains():
         lemmatizer = WordNetLemmatizer()
         text = ' '.join(lemmatizer.lemmatize(word) for word in text.split()) 
         return text
-
-    def tran(text: str):
+    def newTrain(path:str, ):
+        trains.data = pd.read_csv(path, header=None, names=['text', 'emotion'])
+        print('use the user database')
+    def tran(text : str, args:int):
         ''' Start the train '''
-        data =  [{"text": trains.convert_text(text=str(i[0])),  "emotion": i[1]  }for i in text]
+        if args == 1:
+            data =  [{"text": trains.convert_text(text=str(i[0])),  "emotion": i[1]  }for i in text]
+        elif args == 0:
+            data = trains.data
         df = pd.DataFrame(data)
 
         # tokenization
@@ -86,5 +92,13 @@ class trains():
         print("save to ./src/model.h5.")
 
 if __name__ == '__main__':
-    text = trains.loadTheData()
-    trains.tran(text=text)
+    parser = argparse.ArgumentParser(description="csv file")
+    parser.add_argument("--data", type=str, help="path to file.csv")
+    args = parser.parse_args()
+    try:
+        print(args)
+        trains.newTrain(args.data)
+        trains.tran(args = 0)
+    except:
+        text = trains.loadTheData()
+        trains.tran(text=text, args = 1)
